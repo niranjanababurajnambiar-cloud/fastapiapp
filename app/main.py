@@ -1,0 +1,14 @@
+from fastapi import FastAPI
+from routers import company,job
+app = FastAPI()
+app.include_router (company.router)
+app.include_router(job.router)
+@app.get("/")
+def read_root():
+    return {"Hello": "Word"}
+@app.get("/about")
+def read_about():
+    return {"about": "This is a Fastapi application."}
+@app.get("/contact")
+def read_contact():
+    return {"about": "my contact is "}
