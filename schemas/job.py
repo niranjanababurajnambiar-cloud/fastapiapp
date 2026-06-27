@@ -22,6 +22,7 @@ class JobRespnse(JobBase):
 
     class config:
         from_attributes = True
+        
 
 
 

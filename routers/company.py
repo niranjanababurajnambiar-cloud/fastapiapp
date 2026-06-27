@@ -1,11 +1,17 @@
-from fastapi import APIRouter
-from schemas.company import CompanyCreate,CompanyUpdate
+from fastapi import APIRouter,HTTPException,Depends,status
+from schemas.company import CompanyCreate,CompanyUpdate,CompanyResponse
+from models import company,job
+from models.company import Company
+from ..database import get_db,sessional
 
 router = APIRouter(prefix="/company",tags=["company"])
 companies = []
 
-@router.post("/")
+@router.post("/",status_code=status.HTTP_201_CREATED,response_model=CompanyRes)
+
+             
 def create_company(company: CompanyCreate):
+    
     companies.append(company)
     return companies
  
