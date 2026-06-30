@@ -1,8 +1,10 @@
-interface job{
-    id:number;
-    title:string;
-    description:string;
-    salary:string;
-    company_id:number;
+// import type {job} from './job';
+interface Job {
+    id: number;
+    name: string;
+    address: string;
+    phone: string;
+    location: string;
+   
 }
-export type {job}
+export type {Job}

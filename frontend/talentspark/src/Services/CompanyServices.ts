@@ -5,7 +5,7 @@ const API_BASE_URL = "http://localhost:8000";
 
 export async function getCompanies(): Promise<Company[]> {
     const response = await axios.get<Company[]>(
-        `${API_BASE_URL}/companies`
+        `${API_BASE_URL}/company`
     );
     return response.data;
 }

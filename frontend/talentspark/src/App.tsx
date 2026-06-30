@@ -1,28 +1,63 @@
+// import Welcome from "./components/Welcome";
+import NavBar from "./components/Navbar";
+import CompanyCard from "./components/CompanyCard";
+import JobCard from "./components/JobCard";
+import Footer from "./components/Footer";
 import { useEffect, useState } from "react";
-import type { Company } from "./types/company";
 import { getCompanies } from "./Services/CompanyServices";
+import type { Company } from "./types/company";
 
-function App() {
+function App(){
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
   const [companies, setCompanies] = useState<Company[]>([]);
 
   useEffect(() => {
-    getCompanies().then(setCompanies);
+    let isMounted = true;
+
+    const fetchCompanies = async () => {
+      setLoading(true);
+      try {
+        const data = await getCompanies();
+        if (isMounted) {
+          setCompanies(data);
+        }
+      } catch (err) {
+        if (isMounted) {
+          setError(err as Error);
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchCompanies();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
+  
+  if(loading){
+    return <div>Loading...</div>
+  }
 
-  return (
-    <div>
-      <h1>Companies</h1>
-
-      {companies.map((company) => (
-        <div key={company.id}>
-          <h2>{company.name}</h2>
-          <p>{company.address}</p>
-          <p>{company.phone}</p>
-          <p>{company.location}</p>
-        </div>
-      ))}
-    </div>
-  );
+  if(error){
+    return <div>Error: {error.message}</div>
+  }
+  
+  return(
+    <>
+    <NavBar />
+    {/* <Welcome /> */}
+    <br />
+    <CompanyCard  
+    companies={companies}/>
+    <JobCard />
+    <Footer />
+    </>
+  )
 }
-
-export default App;
+export default App
