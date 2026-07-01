@@ -1,0 +1,3 @@
+# fastapiapp
+
+## creating fastapiapp application
